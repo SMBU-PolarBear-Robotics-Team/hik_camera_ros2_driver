@@ -1,0 +1,192 @@
+海康相机拍照采集和 YOLO 测试说明
+=================================
+
+1. 启动海康相机
+---------------
+
+打开终端 1，执行：
+
+source ~/hk_ws/install/setup.zsh
+ros2 launch hik_camera_ros2_driver hik_camera_launch.py
+
+如果相机正常启动，会看到类似：
+
+Found camera count = 1
+Publishing image!
+
+
+2. 启动拍照采集程序
+-------------------
+
+打开终端 2，执行：
+
+source ~/hk_ws/install/setup.zsh
+ros2 run hik_camera_ros2_driver dataset_capture_node.py \
+  --ros-args --params-file ~/hk_ws/src/hik_camera_ros2_driver/config/dataset_capture_params.yaml
+
+使用方法：
+
+- 按 Enter：拍摄一组多曝光图片
+- 输入 q 然后按 Enter：退出程序
+
+当前图片保存目录：
+
+~/hk_negative_dataset
+
+当前图片文件名前缀：
+
+negative
+
+
+3. 修改拍照参数
+---------------
+
+参数文件位置：
+
+~/hk_ws/src/hik_camera_ros2_driver/config/dataset_capture_params.yaml
+
+修改保存目录：
+
+output_dir: "~/hk_negative_dataset"
+
+修改文件名前缀：
+
+filename_prefix: "negative"
+
+修改曝光序列：
+
+exposure_times: [1000, 2500, 5000, 8000]
+
+曝光单位是微秒 us。
+
+如果不想修改增益，保持：
+
+gains: []
+
+如果想让每个曝光对应一个增益，写成：
+
+gains: [8.0, 10.0, 12.0, 12.0]
+
+注意：gains 的数量必须和 exposure_times 的数量一致。
+
+
+4. 用 YOLO 测试单张图片
+-----------------------
+
+进入 conda 环境：
+
+conda activate d2l-zh
+
+运行单张图片检测：
+
+yolo predict \
+  model=/home/f/hk_ws/best.pt \
+  source=/path/to/test.jpg \
+  imgsz=640 \
+  conf=0.25 \
+  save=True
+
+把 /path/to/test.jpg 换成你自己的图片路径。
+
+
+5. 用 YOLO 测试一个文件夹
+-------------------------
+
+进入 conda 环境：
+
+conda activate d2l-zh
+
+检测负样本文件夹：
+
+yolo predict \
+  model=/home/f/hk_ws/best.pt \
+  source=/home/f/hk_negative_dataset \
+  imgsz=640 \
+  conf=0.25 \
+  save=True
+
+结果通常会保存到：
+
+runs/detect/predict
+
+
+6. 实时连接 ROS 相机测试 YOLO
+-----------------------------
+
+打开终端 1，启动相机：
+
+source ~/hk_ws/install/setup.zsh
+ros2 launch hik_camera_ros2_driver hik_camera_launch.py
+
+打开终端 2，把 ROS 图像写成最新图片：
+
+source ~/hk_ws/install/setup.zsh
+python3 ~/hk_ws/src/hik_camera_ros2_driver/tools/ros_image_latest_writer.py --image-topic /camera/image
+
+打开终端 3，运行 YOLO 实时检测：
+
+conda activate d2l-zh
+python ~/hk_ws/src/hik_camera_ros2_driver/tools/yolo_latest_frame_benchmark.py \
+  --model /home/f/hk_ws/best.pt \
+  --conf 0.25 \
+  --imgsz 640
+
+终端会持续输出类似：
+
+frame=13021 fps=40.30 inference_ms=6.7 latency_ms=190.6 detections=0
+
+含义：
+
+- fps：YOLO 实际处理帧率
+- inference_ms：模型推理耗时，单位 ms
+- latency_ms：从相机图像时间戳到检测完成的总延迟，单位 ms
+- detections：当前帧检测到的目标数量
+
+
+7. 查看处理后的图像
+-------------------
+
+实时检测时，最新的带框图像会保存到：
+
+/home/f/hk_ws/yolo_live/latest_annotated.jpg
+
+如果想弹出 OpenCV 实时窗口，在命令末尾加 --show：
+
+python ~/hk_ws/src/hik_camera_ros2_driver/tools/yolo_latest_frame_benchmark.py \
+  --model /home/f/hk_ws/best.pt \
+  --conf 0.25 \
+  --imgsz 640 \
+  --show
+
+
+8. 调整检测效果
+---------------
+
+如果漏检比较多，可以降低置信度：
+
+conf=0.05
+
+如果误检比较多，可以提高置信度：
+
+conf=0.4
+
+如果目标比较小或者距离比较远，可以增大输入尺寸：
+
+imgsz=960
+
+注意：imgsz 越大，检测可能更准，但 FPS 会下降。
+
+
+9. 负样本训练建议
+-----------------
+
+如果某些不是降落图案的东西被误检，可以专门采集这些图片作为负样本。
+
+负样本图片中不要画任何框。
+
+YOLO 数据集里建议保留对应的空 label 文件，例如：
+
+images/train/negative_001.jpg
+labels/train/negative_001.txt
+
+其中 negative_001.txt 是空文件。

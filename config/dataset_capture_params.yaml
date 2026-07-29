@@ -1,0 +1,23 @@
+/dataset_capture:
+  ros__parameters:
+    image_topic: "/camera/image"
+    trigger_topic: "~/trigger"
+    camera_node_name: "/hik_camera_ros2_driver"
+    output_dir: "~/hk_negative_dataset"
+    filename_prefix: "negative"
+    image_format: "jpg"
+    jpeg_quality: 95
+
+    # Press Enter once to save one image for each exposure below.
+    exposure_times: [500, 1000, 2000,3000 ,4000]
+
+      # Leave empty to keep the current gain. Or use one gain per exposure.
+      # gains: [8.0, 10.0, 12.0, 12.0]
+    gains: []
+
+    # Wait a few fresh frames after changing exposure so saved images are stable.
+    settle_frames: 3
+    settle_time_sec: 0.15
+
+    # If true, still save images when the camera parameter service is unavailable.
+    save_latest_without_camera_params: false

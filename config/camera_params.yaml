@@ -8,6 +8,6 @@
     # frame_id: "optical_frame"     # If not set, it will be set as <camera_name>_optical_frame
     # camera_topic: "image"         # If not set, it will be set as <camera_name>/image
 
-    acquisition_frame_rate: 200.0   # Unit: Hz
+    acquisition_frame_rate: 60.0    # Unit: Hz
     exposure_time: 2500             # Unit: us
     gain: 12.0                      # Range: 0.0 ~ 16.9, Unit: dB

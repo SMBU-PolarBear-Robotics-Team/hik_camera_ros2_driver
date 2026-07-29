@@ -1,4 +1,5 @@
 #include <string>
+#include <stdexcept>
 
 #include "MvCameraControl.h"
 #include "camera_info_manager/camera_info_manager.hpp"
@@ -16,7 +17,9 @@ public:
   {
     RCLCPP_INFO(this->get_logger(), "Starting HikCameraRos2DriverNode!");
 
-    initializeCamera();
+    if (!initializeCamera()) {
+      throw std::runtime_error("Failed to initialize Hik camera");
+    }
     declareParameters();
     startCamera();
 
@@ -59,6 +62,10 @@ private:
       }
     }
 
+    if (!rclcpp::ok()) {
+      return false;
+    }
+
     n_ret_ = MV_CC_CreateHandle(&camera_handle_, device_list.pDeviceInfo[0]);
     if (n_ret_ != MV_OK) {
       RCLCPP_ERROR(this->get_logger(), "Failed to create camera handle!");
@@ -79,7 +86,7 @@ private:
     }
 
     // Init convert param
-    image_msg_.data.reserve(img_info_.nHeightMax * img_info_.nWidthMax * 3);
+    image_msg_.data.resize(img_info_.nHeightMax * img_info_.nWidthMax * 3);
     convert_param_.nWidth = img_info_.nWidthValue;
     convert_param_.nHeight = img_info_.nHeightValue;
     convert_param_.enDstPixelType = PixelType_Gvsp_RGB8_Packed;
@@ -183,6 +190,13 @@ private:
     while (rclcpp::ok()) {
       n_ret_ = MV_CC_GetImageBuffer(camera_handle_, &out_frame, 1000);
       if (MV_OK == n_ret_) {
+        auto image_size =
+          static_cast<std::size_t>(out_frame.stFrameInfo.nWidth) * out_frame.stFrameInfo.nHeight *
+          3;
+        if (image_msg_.data.size() != image_size) {
+          image_msg_.data.resize(image_size);
+        }
+
         convert_param_.pDstBuffer = image_msg_.data.data();
         convert_param_.nDstBufferSize = image_msg_.data.size();
         convert_param_.pSrcData = out_frame.pBufAddr;
@@ -195,12 +209,12 @@ private:
         image_msg_.height = out_frame.stFrameInfo.nHeight;
         image_msg_.width = out_frame.stFrameInfo.nWidth;
         image_msg_.step = out_frame.stFrameInfo.nWidth * 3;
-        image_msg_.data.resize(image_msg_.width * image_msg_.height * 3);
 
         camera_info_msg_.header = image_msg_.header;
         camera_pub_.publish(image_msg_, camera_info_msg_);
 
         MV_CC_FreeImageBuffer(camera_handle_, &out_frame);
+        fail_count_ = 0;
 
         static auto last_log_time = std::chrono::steady_clock::now();
         auto now = std::chrono::steady_clock::now();
@@ -212,10 +226,12 @@ private:
         }
 
       } else {
-        RCLCPP_WARN(this->get_logger(), "Get buffer failed! nRet: [%x]", n_ret_);
+        fail_count_++;
+        RCLCPP_WARN(
+          this->get_logger(), "Get buffer failed! nRet: [%x], consecutive failures: %d", n_ret_,
+          fail_count_);
         MV_CC_StopGrabbing(camera_handle_);
         MV_CC_StartGrabbing(camera_handle_);
-        fail_count_++;
       }
 
       if (fail_count_ > 5) {
