@@ -2,12 +2,12 @@
 
 import argparse
 import os
-from pathlib import Path
 import time
+from pathlib import Path
 
 import cv2
-from cv_bridge import CvBridge
 import rclpy
+from cv_bridge import CvBridge
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 
