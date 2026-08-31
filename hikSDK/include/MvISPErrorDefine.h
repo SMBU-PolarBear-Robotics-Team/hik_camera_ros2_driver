@@ -26,8 +26,8 @@
 #define MV_ALG_E_IMG_DATA_NULL 0x1000000A  //图像数据存储地址为空
 
 // 输入输出参数检查
-#define MV_ALG_E_CFG_TYPE 0x1000000B  //设置或者获取参数类型不正确
-#define MV_ALG_E_CFG_SIZE 0x1000000C  //设置或者获取参数的输入、输出结构体大小不正确
+#define MV_ALG_E_CFG_TYPE 0x1000000B   //设置或者获取参数类型不正确
+#define MV_ALG_E_CFG_SIZE 0x1000000C   //设置或者获取参数的输入、输出结构体大小不正确
 #define MV_ALG_E_PRC_TYPE 0x1000000D   //处理类型不正确
 #define MV_ALG_E_PRC_SIZE 0x1000000E   //处理时输入、输出参数大小不正确
 #define MV_ALG_E_FUNC_TYPE 0x1000000F  //子处理类型不正确
@@ -74,19 +74,19 @@
 #define MV_ALG_E_BIND_CORE_FAILED 0x1000002C  //线程绑核失败
 
 // 降噪特有错误码
-#define MV_ALG_E_DENOISE_NE_IMG_FORMAT 0x10402001    //噪声特性图像格式错误
-#define MV_ALG_E_DENOISE_NE_FEATURE_TYPE 0x10402002  //噪声特性类型错误
-#define MV_ALG_E_DENOISE_NE_PROFILE_NUM 0x10402003   //噪声特性个数错误
-#define MV_ALG_E_DENOISE_NE_GAIN_NUM 0x10402004      //噪声特性增益个数错误
-#define MV_ALG_E_DENOISE_NE_GAIN_VAL 0x10402005      //噪声曲线增益值输入错误
-#define MV_ALG_E_DENOISE_NE_BIN_NUM 0x10402006       //噪声曲线柱数错误
-#define MV_ALG_E_DENOISE_NE_INIT_GAIN 0x10402007     //噪声估计初始化增益设置错误
-#define MV_ALG_E_DENOISE_NE_NOT_INIT 0x10402008      //噪声估计未初始化
-#define MV_ALG_E_DENOISE_COLOR_MODE 0x10402009       //颜色空间模式错误
-#define MV_ALG_E_DENOISE_ROI_NUM 0x1040200a          //图像ROI个数错误
-#define MV_ALG_E_DENOISE_ROI_ORI_PT 0x1040200b       //图像ROI原点错误
-#define MV_ALG_E_DENOISE_ROI_SIZE 0x1040200c         //图像ROI大小错误
-#define MV_ALG_E_DENOISE_GAIN_NOT_EXIST 0x1040200d  //输入的相机增益不存在(增益个数已达上限)
+#define MV_ALG_E_DENOISE_NE_IMG_FORMAT 0x10402001      //噪声特性图像格式错误
+#define MV_ALG_E_DENOISE_NE_FEATURE_TYPE 0x10402002    //噪声特性类型错误
+#define MV_ALG_E_DENOISE_NE_PROFILE_NUM 0x10402003     //噪声特性个数错误
+#define MV_ALG_E_DENOISE_NE_GAIN_NUM 0x10402004        //噪声特性增益个数错误
+#define MV_ALG_E_DENOISE_NE_GAIN_VAL 0x10402005        //噪声曲线增益值输入错误
+#define MV_ALG_E_DENOISE_NE_BIN_NUM 0x10402006         //噪声曲线柱数错误
+#define MV_ALG_E_DENOISE_NE_INIT_GAIN 0x10402007       //噪声估计初始化增益设置错误
+#define MV_ALG_E_DENOISE_NE_NOT_INIT 0x10402008        //噪声估计未初始化
+#define MV_ALG_E_DENOISE_COLOR_MODE 0x10402009         //颜色空间模式错误
+#define MV_ALG_E_DENOISE_ROI_NUM 0x1040200a            //图像ROI个数错误
+#define MV_ALG_E_DENOISE_ROI_ORI_PT 0x1040200b         //图像ROI原点错误
+#define MV_ALG_E_DENOISE_ROI_SIZE 0x1040200c           //图像ROI大小错误
+#define MV_ALG_E_DENOISE_GAIN_NOT_EXIST 0x1040200d     //输入的相机增益不存在(增益个数已达上限)
 #define MV_ALG_E_DENOISE_GAIN_BEYOND_RANGE 0x1040200e  //输入的相机增益不在范围内
 #define MV_ALG_E_DENOISE_NP_BUF_SIZE 0x1040200f        //输入的噪声特性内存大小错误
 
