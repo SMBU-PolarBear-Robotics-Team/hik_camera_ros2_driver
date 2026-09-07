@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
-from pathlib import Path
 import time
+from pathlib import Path
 
 import cv2
 from ultralytics import YOLO
@@ -28,7 +28,9 @@ def main():
     parser.add_argument("--conf", type=float, default=0.25)
     parser.add_argument("--duration", type=float, default=0.0)
     parser.add_argument("--show", action="store_true")
-    parser.add_argument("--save-annotated", default="/home/f/hk_ws/yolo_live/latest_annotated.jpg")
+    parser.add_argument(
+        "--save-annotated", default="/home/f/hk_ws/yolo_live/latest_annotated.jpg"
+    )
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir)
