@@ -1,10 +1,11 @@
 import os
 
 from ament_index_python.packages import get_package_share_directory
-from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+
+from launch import LaunchDescription
 
 
 def generate_launch_description():
@@ -14,7 +15,9 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         "params_file",
-        default_value=os.path.join(bringup_dir, "config", "dataset_capture_params.yaml"),
+        default_value=os.path.join(
+            bringup_dir, "config", "dataset_capture_params.yaml"
+        ),
         description="Dataset capture parameter file path",
     )
 
