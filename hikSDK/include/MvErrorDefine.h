@@ -102,9 +102,9 @@
 ///  \~english
 ///  \name USB_STATUS Error Codes: Range from 0x80000300 to 0x800003FF
 ///  @{
-#define MV_E_USB_READ 0x80000300  ///< \~chinese 读usb出错            \~english Reading USB error
-#define MV_E_USB_WRITE 0x80000301  ///< \~chinese 写usb出错            \~english Writing USB error
-#define MV_E_USB_DEVICE 0x80000302  ///< \~chinese 设备异常             \~english Device exception
+#define MV_E_USB_READ 0x80000300     ///< \~chinese 读usb出错            \~english Reading USB error
+#define MV_E_USB_WRITE 0x80000301    ///< \~chinese 写usb出错            \~english Writing USB error
+#define MV_E_USB_DEVICE 0x80000302   ///< \~chinese 设备异常             \~english Device exception
 #define MV_E_USB_GENICAM 0x80000303  ///< \~chinese GenICam相关错误      \~english GenICam error
 #define MV_E_USB_BANDWIDTH \
   0x80000304  ///< \~chinese 带宽不足  该错误码新增   \~english Insufficient bandwidth, this error code is newly added
