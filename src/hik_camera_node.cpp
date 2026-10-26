@@ -1,5 +1,5 @@
-#include <string>
 #include <stdexcept>
+#include <string>
 
 #include "MvCameraControl.h"
 #include "camera_info_manager/camera_info_manager.hpp"
@@ -190,9 +190,8 @@ private:
     while (rclcpp::ok()) {
       n_ret_ = MV_CC_GetImageBuffer(camera_handle_, &out_frame, 1000);
       if (MV_OK == n_ret_) {
-        auto image_size =
-          static_cast<std::size_t>(out_frame.stFrameInfo.nWidth) * out_frame.stFrameInfo.nHeight *
-          3;
+        auto image_size = static_cast<std::size_t>(out_frame.stFrameInfo.nWidth) *
+                          out_frame.stFrameInfo.nHeight * 3;
         if (image_msg_.data.size() != image_size) {
           image_msg_.data.resize(image_size);
         }
