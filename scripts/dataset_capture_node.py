@@ -8,11 +8,11 @@ from datetime import datetime
 from pathlib import Path
 
 import cv2
-from cv_bridge import CvBridge
 import rclpy
-from rclpy.exceptions import ParameterUninitializedException
+from cv_bridge import CvBridge
 from rcl_interfaces.msg import Parameter, ParameterType, ParameterValue
 from rcl_interfaces.srv import SetParameters
+from rclpy.exceptions import ParameterUninitializedException
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from std_msgs.msg import Empty
@@ -38,11 +38,15 @@ class DatasetCaptureNode(Node):
         self.image_topic = self.get_parameter("image_topic").value
         self.trigger_topic = self.get_parameter("trigger_topic").value
         self.camera_node_name = self.get_parameter("camera_node_name").value.rstrip("/")
-        self.output_dir = Path(os.path.expanduser(self.get_parameter("output_dir").value))
+        self.output_dir = Path(
+            os.path.expanduser(self.get_parameter("output_dir").value)
+        )
         self.filename_prefix = self.get_parameter("filename_prefix").value
         self.image_format = self.get_parameter("image_format").value.lower().lstrip(".")
         self.jpeg_quality = int(self.get_parameter("jpeg_quality").value)
-        self.exposure_times = [int(v) for v in self.get_parameter("exposure_times").value]
+        self.exposure_times = [
+            int(v) for v in self.get_parameter("exposure_times").value
+        ]
         self.gains = [float(v) for v in self.get_array_parameter("gains", [])]
         self.settle_frames = int(self.get_parameter("settle_frames").value)
         self.settle_time_sec = float(self.get_parameter("settle_time_sec").value)
@@ -51,7 +55,9 @@ class DatasetCaptureNode(Node):
         )
 
         if self.gains and len(self.gains) != len(self.exposure_times):
-            raise ValueError("gains must be empty or have the same length as exposure_times")
+            raise ValueError(
+                "gains must be empty or have the same length as exposure_times"
+            )
         if self.image_format not in ("jpg", "jpeg", "png", "bmp"):
             raise ValueError("image_format must be one of: jpg, jpeg, png, bmp")
 
@@ -129,13 +135,18 @@ class DatasetCaptureNode(Node):
                 gain = self.gains[setting_index] if self.gains else None
                 if not self.set_camera_params(exposure_time, gain):
                     if not self.save_without_params:
-                        self.get_logger().error("Skipping capture because camera parameters failed")
+                        self.get_logger().error(
+                            "Skipping capture because camera parameters failed"
+                        )
                         continue
 
                 start_frame = self.current_frame_id()
                 target_frame = start_frame + max(1, self.settle_frames)
                 deadline = time.monotonic() + 3.0
-                while self.current_frame_id() < target_frame and time.monotonic() < deadline:
+                while (
+                    self.current_frame_id() < target_frame
+                    and time.monotonic() < deadline
+                ):
                     time.sleep(0.01)
                 time.sleep(self.settle_time_sec)
 
@@ -152,7 +163,9 @@ class DatasetCaptureNode(Node):
 
     def set_camera_params(self, exposure_time, gain):
         if not self.param_client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().warn(f"Parameter service not available: {self.camera_node_name}")
+            self.get_logger().warn(
+                f"Parameter service not available: {self.camera_node_name}"
+            )
             return False
 
         request = SetParameters.Request()
@@ -190,7 +203,9 @@ class DatasetCaptureNode(Node):
 
         for result in response.results:
             if not result.successful:
-                self.get_logger().warn(f"Failed to set camera parameter: {result.reason}")
+                self.get_logger().warn(
+                    f"Failed to set camera parameter: {result.reason}"
+                )
                 return False
         return True
 
@@ -249,7 +264,9 @@ class DatasetCaptureNode(Node):
                 ]
             )
 
-    def append_manifest(self, path, msg, bracket_id, setting_index, exposure_time, gain):
+    def append_manifest(
+        self, path, msg, bracket_id, setting_index, exposure_time, gain
+    ):
         with self.manifest_path.open("a", newline="") as file:
             writer = csv.writer(file)
             writer.writerow(

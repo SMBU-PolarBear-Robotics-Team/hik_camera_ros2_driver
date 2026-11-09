@@ -56,7 +56,7 @@ typedef struct _MV_USB3_DEVICE_INFO_
   unsigned char EventEndPoint;   ///< \~chinese 事件端点             \~english Event endpoint
   unsigned short idVendor;       ///< \~chinese 供应商ID号           \~english Vendor ID Number
   unsigned short idProduct;      ///< \~chinese 产品ID号             \~english Device ID Number
-  unsigned int nDeviceNumber;  ///< \~chinese 设备序列号           \~english Device Serial Number
+  unsigned int nDeviceNumber;    ///< \~chinese 设备序列号           \~english Device Serial Number
   unsigned char chDeviceGUID
     [INFO_MAX_BUFFER_SIZE];  ///< \~chinese 设备GUID号           \~english Device GUID Number
   unsigned char
@@ -169,8 +169,8 @@ typedef struct _MV_FRAME_OUT_INFO_
   unsigned int nFrameNum;          ///< \~chinese 帧号             \~english Frame Number
   unsigned int nDevTimeStampHigh;  ///< \~chinese 时间戳高32位\~english Timestamp high 32 bits
   unsigned int nDevTimeStampLow;   ///< \~chinese 时间戳低32位\~english Timestamp low 32 bits
-  unsigned int nReserved0;  ///< \~chinese 保留，8字节对齐\~english Reserved, 8-byte aligned
-  int64_t nHostTimeStamp;  ///< \~chinese 主机生成的时间戳\~english Host-generated timestamp
+  unsigned int nReserved0;         ///< \~chinese 保留，8字节对齐\~english Reserved, 8-byte aligned
+  int64_t nHostTimeStamp;          ///< \~chinese 主机生成的时间戳\~english Host-generated timestamp
 
   unsigned int nFrameLen;
 
@@ -188,8 +188,8 @@ typedef struct _MV_FRAME_OUT_INFO_EX_
   unsigned int nFrameNum;          ///< \~chinese 帧号             \~english Frame Number
   unsigned int nDevTimeStampHigh;  ///< \~chinese 时间戳高32位\~english Timestamp high 32 bits
   unsigned int nDevTimeStampLow;   ///< \~chinese 时间戳低32位\~english Timestamp low 32 bits
-  unsigned int nReserved0;  ///< \~chinese 保留，8字节对齐\~english Reserved, 8-byte aligned
-  int64_t nHostTimeStamp;  ///< \~chinese 主机生成的时间戳\~english Host-generated timestamp
+  unsigned int nReserved0;         ///< \~chinese 保留，8字节对齐\~english Reserved, 8-byte aligned
+  int64_t nHostTimeStamp;          ///< \~chinese 主机生成的时间戳\~english Host-generated timestamp
 
   unsigned int nFrameLen;
 
@@ -267,12 +267,12 @@ typedef struct _MV_SAVE_IMAGE_PARAM_T_
   unsigned char * pData;  ///< [IN]   \~chinese 输入数据缓存\~english Input Data Buffer
   unsigned int nDataLen;  ///< [IN]   \~chinese 输入数据大小\~english Input Data Size
   enum MvGvspPixelType
-    enPixelType;  ///< [IN]    \~chinese 输入数据的像素格式\~english Input Data Pixel Format
-  unsigned short nWidth;   ///< [IN]   \~chinese 图像宽\~english Image Width
+    enPixelType;          ///< [IN]    \~chinese 输入数据的像素格式\~english Input Data Pixel Format
+  unsigned short nWidth;  ///< [IN]   \~chinese 图像宽\~english Image Width
   unsigned short nHeight;  ///< [IN]    \~chinese 图像高\~english Image Height
 
   unsigned char * pImageBuffer;  ///< [OUT]   \~chinese 输出图片缓存\~english Output Image Buffer
-  unsigned int nImageLen;  ///< [OUT]   \~chinese 输出图片大小\~english Output Image Size
+  unsigned int nImageLen;        ///< [OUT]   \~chinese 输出图片大小\~english Output Image Size
   unsigned int
     nBufferSize;  ///< [IN]    \~chinese 提供的输出缓冲区大小\~english Output buffer size provided
   enum MV_SAVE_IAMGE_TYPE
@@ -286,12 +286,12 @@ typedef struct _MV_SAVE_IMAGE_PARAM_T_EX_
   unsigned char * pData;  ///< [IN]   \~chinese 输入数据缓存\~english Input Data Buffer
   unsigned int nDataLen;  ///< [IN]   \~chinese 输入数据大小\~english Input Data Size
   enum MvGvspPixelType
-    enPixelType;  ///< [IN]    \~chinese 输入数据的像素格式\~english Input Data Pixel Format
-  unsigned short nWidth;   ///< [IN]   \~chinese 图像宽\~english Image Width
+    enPixelType;          ///< [IN]    \~chinese 输入数据的像素格式\~english Input Data Pixel Format
+  unsigned short nWidth;  ///< [IN]   \~chinese 图像宽\~english Image Width
   unsigned short nHeight;  ///< [IN]    \~chinese 图像高\~english Image Height
 
   unsigned char * pImageBuffer;  ///< [OUT]   \~chinese 输出图片缓存\~english Output Image Buffer
-  unsigned int nImageLen;  ///< [OUT]   \~chinese 输出图片大小\~english Output Image Size
+  unsigned int nImageLen;        ///< [OUT]   \~chinese 输出图片大小\~english Output Image Size
   unsigned int
     nBufferSize;  ///< [IN]    \~chinese 提供的输出缓冲区大小\~english Output buffer size provided
   enum MV_SAVE_IAMGE_TYPE
@@ -459,10 +459,10 @@ typedef struct _MV_CC_FRAME_SPEC_INFO_
 typedef struct _MV_CC_HB_DECODE_PARAM_T_
 {
   unsigned char * pSrcBuf;  ///< [IN]  \~chinese 输入数据缓存           \~english Input data buffer
-  unsigned int nSrcLen;  ///< [IN]  \~chinese 输入数据大小           \~english Input data size
+  unsigned int nSrcLen;     ///< [IN]  \~chinese 输入数据大小           \~english Input data size
 
-  unsigned int nWidth;   ///< [OUT] \~chinese 图像宽                 \~english Width
-  unsigned int nHeight;  ///< [OUT] \~chinese 图像高                 \~english Height
+  unsigned int nWidth;      ///< [OUT] \~chinese 图像宽                 \~english Width
+  unsigned int nHeight;     ///< [OUT] \~chinese 图像高                 \~english Height
   unsigned char * pDstBuf;  ///< [OUT] \~chinese 输出数据缓存           \~english Output data buffer
   unsigned int
     nDstBufSize;  ///< [IN]  \~chinese 提供的输出缓冲区大小   \~english Provided output buffer size
@@ -657,8 +657,8 @@ typedef struct _MV_MATCH_INFO_NET_DETECT_
 {
   int64_t
     nReviceDataSize;  ///< \~chinese 已接收数据大小  [统计StartGrabbing和StopGrabbing之间的数据量]\~english Received data size
-  int64_t nLostPacketCount;      ///< \~chinese 丢失的包数量\~english Number of packets lost
-  unsigned int nLostFrameCount;  ///< \~chinese 丢帧数量\~english Number of frames lost
+  int64_t nLostPacketCount;           ///< \~chinese 丢失的包数量\~english Number of packets lost
+  unsigned int nLostFrameCount;       ///< \~chinese 丢帧数量\~english Number of frames lost
   unsigned int nNetRecvFrameCount;    ///< \~chinese 保留\~english Reserved
   int64_t nRequestResendPacketCount;  ///< \~chinese 请求重发包数
   int64_t nResendPacketCount;         ///< \~chinese 重发包数
@@ -670,8 +670,8 @@ typedef struct _MV_MATCH_INFO_USB_DETECT_
   int64_t
     nReviceDataSize;  ///< \~chinese 已接收数据大小    [统计OpenDevicce和CloseDevice之间的数据量]\~english Received data size
   unsigned int nRevicedFrameCount;  ///< \~chinese 已收到的帧数\~english Number of frames received
-  unsigned int nErrorFrameCount;  ///< \~chinese 错误帧数\~english Number of error frames
-  unsigned int nReserved[2];      ///< \~chinese 保留\~english Reserved
+  unsigned int nErrorFrameCount;    ///< \~chinese 错误帧数\~english Number of error frames
+  unsigned int nReserved[2];        ///< \~chinese 保留\~english Reserved
 } MV_MATCH_INFO_USB_DETECT;
 
 typedef struct _MV_IMAGE_BASIC_INFO_
@@ -808,7 +808,7 @@ typedef struct _MV_CC_FILE_ACCESS_PROGRESS_T
 typedef struct _MV_TRANSMISSION_TYPE_T
 {
   MV_GIGE_TRANSMISSION_TYPE enTransmissionType;  ///< \~chinese 传输模式\~english Transmission type
-  unsigned int nDestIp;  ///< \~chinese 目标IP，组播模式下有意义\~english Destination IP
+  unsigned int nDestIp;      ///< \~chinese 目标IP，组播模式下有意义\~english Destination IP
   unsigned short nDestPort;  ///< \~chinese 目标Port，组播模式下有意义\~english Destination port
 
   unsigned int nReserved[32];  ///< \~chinese 预留\~english Reserved
@@ -825,7 +825,7 @@ typedef struct _MV_ACTION_CMD_INFO_T
   int64_t nActionTime;             ///< \~chinese 预定的时间，和主频有关
 
   const char * pBroadcastAddress;  ///< \~chinese 广播包地址
-  unsigned int nTimeOut;  ///< \~chinese 等待ACK的超时时间，如果为0表示不需要ACK
+  unsigned int nTimeOut;           ///< \~chinese 等待ACK的超时时间，如果为0表示不需要ACK
 
   unsigned int
     bSpecialNetEnable;  ///< [IN]  \~chinese 只有设置成1时指定的网卡IP才有效，非1时无效 \~english Special IP Enable
